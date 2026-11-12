@@ -24,7 +24,16 @@ import {
   ToolingScene,
 } from './Scenes';
 
-const EMAIL = 'hi@danielkmak.com';
+// Assembled at runtime and only rendered after hydration, so the address is
+// never in the pre-rendered HTML that crawlers and scrapers read.
+const emailAddress = () => atob('aGlAZGFuaWVsa21hay5jb20='); // base64, so no plain-text address ships
+
+/** False in the pre-rendered HTML and the first client render, true after hydration. */
+function useHydrated() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  return hydrated;
+}
 const GITHUB = 'https://github.com/e00dan';
 const LINKEDIN = 'https://www.linkedin.com/in/kmakdaniel/';
 
@@ -60,7 +69,7 @@ function ContactForm() {
     const message = String(data.get('message') ?? '').trim();
     const subject = name ? `Hello from ${name}` : 'Hello from danielkmak.com';
     const body = [message, '', name && `— ${name}`].filter(Boolean).join('\n');
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${emailAddress()}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   };
   return (
@@ -84,6 +93,10 @@ function ContactForm() {
 }
 
 export default function Landing() {
+  const hydrated = useHydrated();
+  // Client-only: the email (kept out of static HTML) and the large decorative
+  // skylines (~440 kB of SVG that carries no content for crawlers).
+  const email = hydrated ? emailAddress() : null;
   // Old Ember/React URLs used hash routes (#/contact); map them onto sections.
   useEffect(() => {
     const hash = window.location.hash;
@@ -115,7 +128,7 @@ export default function Landing() {
       </header>
 
       <section className="hero">
-        <Skyline className="hero-art" />
+        {hydrated ? <Skyline className="hero-art" /> : <div className="hero-art hero-art--placeholder" aria-hidden="true" />}
         <div className="hero-copy">
           <p className="eyebrow">
             Blockchain Engineer <span>/</span> Builder
@@ -211,7 +224,7 @@ export default function Landing() {
 
         <section id="contact" className="section contact glass">
           <div className="contact-art">
-            <Skyline variant="sketch" />
+            {hydrated && <Skyline variant="sketch" />}
           </div>
           <div className="contact-copy">
             <h2 className="eyebrow eyebrow-line">Get in Touch</h2>
@@ -220,9 +233,13 @@ export default function Landing() {
               <br />
               Let&rsquo;s build something remarkable together.
             </p>
-            <a className="contact-email" href={`mailto:${EMAIL}`}>
-              {EMAIL}
-            </a>
+            {email ? (
+              <a className="contact-email" href={`mailto:${email}`}>
+                {email}
+              </a>
+            ) : (
+              <span className="contact-email contact-email--pending" aria-hidden="true" />
+            )}
           </div>
           <ContactForm />
         </section>

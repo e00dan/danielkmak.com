@@ -1,0 +1,25 @@
+# Daniel Kmak
+
+> Blockchain engineer building cross-chain bridges, token standards and developer tooling across EVM and Solana. In blockchain since 2017, fully remote since 2018.
+
+## About
+
+- Engineer since 2016, in blockchain since 2017.
+- Most recently led an integrations team at a cross-chain protocol: owned technical quality, hired engineers and personally shipped the most critical partner integrations.
+- Featured work: cross-chain token and governance bridging infrastructure for one of DeFi's longest-standing protocols, built on EVM and Solana.
+
+## Expertise
+
+- Smart contracts: Solidity, Foundry
+- Solana: Rust, Anchor
+- Cross-chain: bridges and messaging
+- Developer tooling: TypeScript, Node.js
+- Infrastructure: Kubernetes, AWS
+- Leadership: teams and hiring
+
+## Links
+
+- [Website](https://danielkmak.com/)
+- [GitHub](https://github.com/e00dan)
+- [LinkedIn](https://www.linkedin.com/in/kmakdaniel/)
+- Contact: use the form at https://danielkmak.com/#contact

@@ -12,7 +12,9 @@ import type { ReactNode } from 'react';
 const G = 606;
 const C = 1.88; // city centre
 const WL = 1.46; // Wola cluster
-const y = (m: number, f: number) => G - m * f;
+// High-rises are drawn at half their scaled height so the palace dominates.
+const HEIGHT_SCALE = 0.5;
+const y = (m: number, f: number) => G - m * f * HEIGHT_SCALE;
 
 type Material = 'blue' | 'dark' | 'bronze' | 'teal' | 'concrete' | 'light';
 
