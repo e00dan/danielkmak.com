@@ -1,26 +1,27 @@
-## Installation
+# danielkmak.com
 
+Personal site, built with [React](https://react.dev) + [Vite](https://vite.dev) and deployed to GitHub Pages.
+
+## Development
+
+```sh
+nvm use      # Node 24, see .nvmrc
+npm install
+npm run dev  # http://localhost:5173
 ```
-nvm use 8
-yarn
-bower install
-```
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `yarn`
-* `bower install`
+`npm run build` type-checks and writes the static site to `dist/`; `npm run preview` serves that build locally.
 
-## Running / Development
+## Structure
 
-* `yarn start`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+- `src/main.tsx` – routes (hash-based, so old `/#/contact` links keep working)
+- `src/components/` – layout/nav and the particle background
+- `src/pages/` – Home and Contact
+- `src/styles.css` – all styles
+- `public/` – copied as-is (`CNAME`, favicon, robots.txt)
 
-### Building
+## Deployment
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+Every push to `master` runs `.github/workflows/deploy.yml`, which builds the site and publishes `dist/` to GitHub Pages. Pull requests run the build only.
 
-### Deploying
-
-I'm usually running `up.sh` script to deploy this application.
+One-time repo setting: **Settings → Pages → Build and deployment → Source: GitHub Actions**, with `danielkmak.com` as the custom domain.

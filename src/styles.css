@@ -1,0 +1,276 @@
+/* ---------- Base ---------- */
+
+:root {
+  --bg: #1d1d1d;
+  --white: #fff;
+  --gray: #737373;
+  --z-particles: 1;
+  --z-content: 2;
+  --z-nav: 4;
+  --font-display: 'Fjalla One', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Raleway', Helvetica, Arial, sans-serif;
+  font-weight: 100;
+  line-height: 1.5;
+  color: var(--white);
+  background-color: var(--bg);
+}
+
+a {
+  color: var(--white);
+  text-decoration: none;
+}
+
+p {
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
+}
+
+::selection {
+  background-color: rgb(192, 192, 192);
+}
+
+.noselect {
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* ---------- Navigation bar ---------- */
+
+.icon-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  width: 100%;
+  background-color: rgba(14, 16, 23, 0.75);
+}
+
+.icon-bar .item {
+  position: relative;
+  flex: 1 1 25%;
+  padding: 10px 1.25rem 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--gray);
+}
+
+.icon-bar .item::before {
+  content: '';
+  display: block;
+  height: 43px;
+}
+
+.icon-bar .item svg {
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.icon-bar .item span {
+  display: block;
+  font-size: 1rem;
+}
+
+.icon-bar .item.active,
+.icon-bar .item:hover {
+  background: rgba(115, 115, 115, 0.26);
+  transition: background 0.5s cubic-bezier(0, 1.8, 1, 1.8);
+}
+
+@media (max-width: 512px) {
+  .icon-bar .item {
+    padding: 6px 0.25rem 0.75rem;
+  }
+
+  .icon-bar .item::before {
+    height: 30px;
+  }
+
+  .icon-bar .item svg {
+    top: 12px;
+  }
+
+  .icon-bar .item span {
+    font-size: 0.75rem;
+  }
+}
+
+/* ---------- Shared full-screen sections ---------- */
+
+.hero,
+.contact {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.15);
+}
+
+.hero::before,
+.contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.7;
+}
+
+.intro-text {
+  position: relative;
+  padding-top: 40%;
+  text-align: center;
+}
+
+@media (min-width: 641px) {
+  .intro-text {
+    padding-top: 25%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .intro-text {
+    padding-top: 18%;
+  }
+}
+
+/* ---------- Home ---------- */
+
+/* Palace of Culture and Science, Warsaw. AVIF where supported, JPEG fallback;
+   portrait screens get a crop centred on the tower. */
+.hero {
+  background-image: url('./assets/warsaw-desktop.jpg');
+  background-image: image-set(
+    url('./assets/warsaw-desktop.avif') type('image/avif'),
+    url('./assets/warsaw-desktop.jpg') type('image/jpeg')
+  );
+  background-position: 41% center;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .hero {
+    background-image: url('./assets/warsaw-mobile.jpg');
+    background-image: image-set(
+      url('./assets/warsaw-mobile.avif') type('image/avif'),
+      url('./assets/warsaw-mobile.jpg') type('image/jpeg')
+    );
+    background-position: center;
+  }
+}
+
+.hero::before {
+  background: linear-gradient(to top, black 0%, transparent 100%);
+}
+
+.hero-content {
+  z-index: var(--z-content);
+  height: 100vh;
+  height: 100svh;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-particles);
+}
+
+/* Keep the title box above the particle canvas. */
+.hero-content .bw-box {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  background-image: url('./assets/contact.jpg');
+}
+
+.contact::before {
+  background: linear-gradient(to top, black 0%, black 50%, transparent 100%);
+}
+
+/* ---------- Black & white box (Home title, Contact email) ---------- */
+
+.bw-box {
+  display: block;
+  width: 460px;
+  max-width: calc(100% - 32px);
+  margin: auto;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  border: 1px solid var(--white);
+}
+
+.bw-box .main {
+  margin: 0;
+  font-size: clamp(24px, 8vw, 48px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: black;
+  background-color: var(--white);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Only the clickable (link) version inverts on hover/focus. */
+a.bw-box:hover .main,
+a.bw-box:focus-visible .main {
+  color: var(--white);
+  background-color: transparent;
+}
+
+a.bw-box:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+
+.bw-box footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+}
+
+.bw-box footer svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* The paper plane "takes off" when the email link is hovered or focused. */
+a.bw-box:hover footer svg,
+a.bw-box:focus-visible footer svg {
+  transform: translate(4px, -4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
